@@ -8,6 +8,29 @@
 </head>
 <body>
     <h1>Web Library</h1>
+    <div class="container">
+        <div class="sideBar">
+            <button id="addBookBtn">Add Book</button>
+            <button id="filterBtn">Filter</button>
+        </div>
+        <div class="bookShelf"></div>
+    </div>
+
+    <dialog id="addBookDial">
+        <form>
+            <h2>Add a Book</h2>
+            <label for="title"></label>
+            <input type="text" name="title" id="title">
+            <label for="author"></label>
+            <input type="text" name="author" id="author">
+            <label for="genre"></label>
+            <input type="text" name="genre" id="genre">
+            <label for="pages"></label>
+            <input type="number" name="pages" id="pages">
+            <button>Submit</button>
+            <button>Cancel</button>            
+        </form>
+    </dialog>
     <script src="function.js"></script>
 </body>
 </html>
