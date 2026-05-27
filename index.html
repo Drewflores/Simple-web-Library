@@ -9,26 +9,23 @@
 <body>
     <h1>Web Library</h1>
     <div class="container">
-        <div class="sideBar">
-            <button id="addBookBtn">Add Book</button>
-            <button id="filterBtn">Filter</button>
-        </div>
-        <div class="bookShelf"></div>
+        <button id="addBookBtn">Add Book</button>
+        <div id="bookShelf"></div>
     </div>
 
     <dialog id="addBookDial">
-        <form>
+        <form id="addBookForm">
             <h2>Add a Book</h2>
-            <label for="title"></label>
+            <label for="title">Title: </label>
             <input type="text" name="title" id="title">
-            <label for="author"></label>
+            <label for="author"> Author: </label>
             <input type="text" name="author" id="author">
-            <label for="genre"></label>
+            <label for="genre"> Genre: </label>
             <input type="text" name="genre" id="genre">
-            <label for="pages"></label>
+            <label for="pages">No. Pages</label>
             <input type="number" name="pages" id="pages">
-            <button>Submit</button>
-            <button>Cancel</button>            
+            <button id="submitBtn">Submit</button>
+            <button id="cancelBtn">Cancel</button>            
         </form>
     </dialog>
     <script src="function.js"></script>
