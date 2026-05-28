@@ -35,7 +35,7 @@ const showBooks = () => {
             if (key === 'id') return; 
             
             const p = document.createElement('p');
-            p.textContent = `${key}: ${value}`;
+            p.innerHTML = `${key}: <span style='font-weight: bold'>${value}</span>`;
             card.appendChild(p);
         });
 
@@ -47,13 +47,16 @@ const showBooks = () => {
             read.classList.add("green");
         }
 
+        const featureBtns = document.createElement("div");
+        featureBtns.className = "feature";
+
         read.addEventListener("click", (e) => {
             book.readStatus(); 
             e.target.classList.toggle("green"); 
             showBooks(); 
         });
 
-        card.appendChild(read);
+        featureBtns.appendChild(read);
 
         const remove = document.createElement("button");
         remove.textContent = "Remove";
@@ -64,8 +67,9 @@ const showBooks = () => {
             showBooks();
         });
 
-        card.appendChild(remove);
+        featureBtns.appendChild(remove);
         bookShelf.appendChild(card);
+        card.appendChild(featureBtns);
     });
 };
 
