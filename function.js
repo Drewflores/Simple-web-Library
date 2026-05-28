@@ -1,53 +1,22 @@
-const myLibrary = [
-    {
-        id: crypto.randomUUID(),
-        title: "Lord Of Mysteries",
-        author: "Cuttlefish That Loves Diving",
-        genre: "Dark fantasy, cosmic horror",
-        pages: 10000,
-        read: "Done"
-    },
-    {
-        id: crypto.randomUUID(),
-        title: "Classroom of the Elite",
-        author: "Shougo Kinugasa",
-        genre: "psychological thriller",
-        pages: 9500,
-        read: "Done"
-    },
-    {
-        id: crypto.randomUUID(),
-        title: "Classic Literature Club",
-        author: "Honobu Yonezawa",
-        genre: "Mystery, Slice of life",
-        pages: 2000,
-        read: "Done"
-    },
-    {
-        id: crypto.randomUUID(),
-        title: "Noli Me Tangere",
-        author: "Dr. Jose Rizal",
-        genre: "Social, Political, Romance",
-        pages: 517,
-        read: "Done"
-    }
-];
-
-function Book(title, author, genre, pages){
+function Book(title, author, genre, pages, read = "Not yet"){
     this.id = crypto.randomUUID();
     this.title = title;
     this.author = author;
     this.genre = genre;
     this.pages = pages;
-};
-
-Book.prototype.doneStatus = function(){
-    this.read = "Done";
-};
-
-Book.prototype.notYetStatus = function(){
-    this.read = "Not yet"
+    this.read = read; 
 }
+
+Book.prototype.readStatus = function(){
+    this.read = (this.read === "Done") ? "Not yet" : "Done";
+};
+
+const myLibrary = [
+    new Book("Lord Of Mysteries", "Cuttlefish That Loves Diving", "Dark fantasy, cosmic horror", 10000),
+    new Book("Classroom of the Elite", "Shougo Kinugasa", "psychological thriller", 9500),
+    new Book("Classic Literature Club", "Honobu Yonezawa", "Mystery, Slice of life", 2000),
+    new Book("Noli Me Tangere", "Dr. Jose Rizal", "Social, Political, Romance", 517)
+];
 
 const addBookDial = document.getElementById("addBookDial");
 const addBookBtn = document.getElementById("addBookBtn");
@@ -55,30 +24,53 @@ const cancelBtn = document.getElementById("cancelBtn");
 const bookShelf = document.getElementById("bookShelf");
 const addForm = document.getElementById("addBookForm");
 
-
 const showBooks = () => {
-    myLibrary.forEach(book => {
-    const card = document.createElement('div');
-    card.className = "card";
+    bookShelf.replaceChildren();
 
-    Object.entries(book).forEach(([key, value]) => {
-        const p = document.createElement('p');
+    myLibrary.forEach((book, index) => {
+        const card = document.createElement('div');
+        card.className = "card";
 
-        p.textContent = `${key}: ${value}`;
-        card.appendChild(p)
-    });
+        Object.entries(book).forEach(([key, value]) => {
+            if (key === 'id') return; 
+            
+            const p = document.createElement('p');
+            p.textContent = `${key}: ${value}`;
+            card.appendChild(p);
+        });
 
-    const read = document.createElement("button");
-    read.textContent = "Read"
-    card.appendChild(read);
+        const read = document.createElement("button");
+        read.textContent = "Read";
+        read.className = "read";
+        
+        if (book.read === "Done") {
+            read.classList.add("green");
+        }
 
-    const remove = document.createElement("button");
-    remove.textContent = "Remove"
-    card.appendChild(remove);
+        read.addEventListener("click", (e) => {
+            book.readStatus(); 
+            e.target.classList.toggle("green"); 
+            showBooks(); 
+        });
 
-    bookShelf.appendChild(card);
+        card.appendChild(read);
+
+        const remove = document.createElement("button");
+        remove.textContent = "Remove";
+        remove.className = "remove";
+        
+        remove.addEventListener("click", () => {
+            myLibrary.splice(index, 1); 
+            showBooks();
+        });
+
+        card.appendChild(remove);
+        bookShelf.appendChild(card);
     });
 };
+
+// Initial load
+showBooks();
 
 addBookBtn.addEventListener("click", () => {
     addBookDial.showModal();
@@ -104,8 +96,6 @@ addForm.addEventListener("submit", (e) => {
     addToLibrary(title, author, genre, pages);
     
     addForm.reset();
-    bookShelf.replaceChildren();
+    addBookDial.close();
     showBooks();
 });
-
-showBooks();
